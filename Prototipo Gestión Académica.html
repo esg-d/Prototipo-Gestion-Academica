@@ -1,0 +1,258 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Prototipo - Sistema de Gestión Académica</title>
+  <meta name="description" content="Prototipo del sitio web de gestión académica: Home, Login, Panel Estudiante y Reportes. Wireframes funcionales en HTML/CSS/JS." />
+  <!-- Fuentes y metas -->
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+  <style>
+    /* Reset ligero */
+    :root{
+      --bg:#f7f8fa; --card:#ffffff; --muted:#6b6b6b; --accent:#002147; --action:#28a745; --radius:8px; --max-width:1100px;
+      --gap:18px; --text: #1b1b1b;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%;margin:0;font-family:Roboto, Arial, sans-serif;background:var(--bg);color:var(--text);}
+    a{color:var(--accent);text-decoration:none}
+
+    /* Contenedor central */
+    .wrapper{max-width:var(--max-width);margin:28px auto;padding:20px;}
+
+    /* Header */
+    header{background:var(--card);border-radius:var(--radius);padding:12px 18px;display:flex;align-items:center;justify-content:space-between;box-shadow:0 1px 4px rgba(15,15,15,0.05)}
+    .brand{display:flex;align-items:center;gap:14px}
+    .brand .logo{width:44px;height:44px;background:linear-gradient(135deg,#e6eef9,#dfe9f8);border-radius:6px;display:flex;align-items:center;justify-content:center;font-weight:700;color:var(--accent)}
+    nav ul{list-style:none;margin:0;padding:0;display:flex;gap:14px;align-items:center}
+    nav li{font-weight:500}
+    .cta{background:var(--action);color:white;padding:8px 14px;border-radius:6px;cursor:pointer}
+
+    /* Grid principal para prototipos */
+    .pages{display:grid;grid-template-columns:1fr 1fr;gap:var(--gap);margin-top:18px}
+    .card{background:var(--card);border-radius:var(--radius);padding:18px;box-shadow:0 1px 6px rgba(12,12,12,0.04)}
+
+    /* Estilos de cada layout (wireframe) */
+    .banner{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:40px 24px;min-height:220px}
+    .banner img{width:120px;height:80px;object-fit:cover;border-radius:6px}
+    .banner h1{margin:18px 0 10px;font-size:28px}
+    .btn{display:inline-block;padding:10px 18px;border-radius:8px;border:0;background:#4a4a4a;color:#fff;cursor:pointer}
+
+    /* Formulario centrado */
+    .form-centered{max-width:420px;margin:0 auto}
+    label{display:block;font-weight:500;margin-bottom:6px}
+    input[type=text],input[type=password],input[type=email],textarea{width:100%;padding:10px;border:1px solid #e2e6ea;border-radius:6px;margin-bottom:12px}
+    .link-muted{color:var(--muted);font-size:0.95rem}
+
+    /* Panel estudiante: layout con sidebar */
+    .panel-grid{display:grid;grid-template-columns:240px 1fr;gap:18px}
+    .sidebar{padding:18px}
+    .sidebar nav ul{flex-direction:column;gap:8px}
+    .sidebar nav li{padding:10px;border-radius:6px;background:linear-gradient(180deg,#fafafa,#fff);cursor:pointer}
+
+    .main-area{padding:18px}
+    table{width:100%;border-collapse:collapse}
+    th,td{padding:10px;border-bottom:1px solid #eee;text-align:left}
+
+    /* Chart placeholder */
+    .chart{width:100%;height:220px;border-radius:6px;background:linear-gradient(135deg,#f0f6ff,#ffffff);display:flex;align-items:center;justify-content:center}
+
+    /* Footer */
+    footer{margin-top:18px;text-align:center;color:var(--muted);font-size:0.95rem}
+
+    /* Responsive */
+    @media (max-width:900px){
+      .pages{grid-template-columns:1fr;}
+      .panel-grid{grid-template-columns:1fr}
+      header{flex-direction:column;gap:10px;align-items:flex-start}
+      nav ul{flex-wrap:wrap}
+      .brand{width:100%}
+    }
+
+    /* Accesibilidad visual */
+    :focus{outline:3px solid #cfe8ff;outline-offset:2px}
+
+    /* Small utilities */
+    .muted{color:var(--muted)}
+    .small{font-size:0.9rem}
+    .row{display:flex;gap:10px;align-items:center}
+    .actions{display:flex;gap:10px;margin-top:12px}
+  </style>
+</head>
+<body>
+  <div class="wrapper" role="main">
+    <header aria-label="Encabezado del prototipo">
+      <div class="brand">
+        <div class="logo" aria-hidden="true">GA</div>
+        <div>
+          <div style="font-weight:700">Universidad Ejemplar</div>
+          <div class="small muted">Sistema de Gestión Académica - Prototipo</div>
+        </div>
+      </div>
+      <nav aria-label="Navegación principal">
+        <ul>
+          <li><a href="#home" onclick="showSection('home');return false;">Inicio</a></li>
+          <li><a href="#login" onclick="showSection('login');return false;">Login</a></li>
+          <li><a href="#panel" onclick="showSection('panel');return false;">Panel</a></li>
+          <li><a href="#reportes" onclick="showSection('reportes');return false;">Reportes</a></li>
+          <li><button class="cta" onclick="downloadPDFPlaceholder()">Exportar PDF</button></li>
+        </ul>
+      </nav>
+    </header>
+
+    <!-- GRID de páginas: se presentan como wireframes en vista de prototipo -->
+    <section class="pages" aria-label="Layouts y wireframes">
+
+      <!-- HOME -->
+      <article id="home" class="card" tabindex="0" aria-labelledby="home-title">
+        <div class="banner" role="banner">
+          <img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='250' height='140'><rect width='100%' height='100%' fill='%23e9f0fa'/><circle cx='210' cy='30' r='15' fill='%23d0e4ff'/><polygon points='20,120 80,45 140,120' fill='%23c7def9'/></svg>" alt="Banner institucional (gráfico)">
+          <h1 id="home-title">Bienvenido al Sistema</h1>
+          <p class="muted small">Portal para gestionar asignaturas, notas y reportes académicos</p>
+          <div style="margin-top:16px"><button class="btn" onclick="showSection('login')">Acceder</button></div>
+        </div>
+        <div style="display:flex;justify-content:space-between;align-items:center;padding-top:12px;border-top:1px solid #eee">
+          <div class="small muted">Contacto: soporte@universidad.edu</div>
+          <div class="row small muted" aria-hidden="true">[FB] [TW] [IN]</div>
+        </div>
+      </article>
+
+      <!-- LOGIN -->
+      <article id="login" class="card" tabindex="0" aria-labelledby="login-title">
+        <h2 id="login-title">Login</h2>
+        <form class="form-centered" onsubmit="fakeLogin(event)" aria-label="Formulario de inicio de sesión">
+          <label for="user">Usuario</label>
+          <input id="user" name="user" type="text" inputmode="text" autocomplete="username" required aria-required="true">
+          <label for="pass">Contraseña</label>
+          <input id="pass" name="pass" type="password" autocomplete="current-password" required aria-required="true">
+          <div class="actions">
+            <button class="btn" type="submit">Ingresar</button>
+            <button type="button" class="small muted" onclick="alert('Recuperar contraseña (simulado)')">¿Olvidaste tu contraseña?</button>
+          </div>
+          <p class="small muted" style="margin-top:10px">¿Eres nuevo? <a href="#" onclick="alert('Ir a registro (simulado)')">Regístrate</a></p>
+        </form>
+      </article>
+
+      <!-- SIDEBAR (wireframe) -->
+      <aside class="card" tabindex="0" aria-labelledby="sidebar-title">
+        <h3 id="sidebar-title">Navegación rápida</h3>
+        <div class="sidebar">
+          <nav aria-label="Menú secundario">
+            <ul>
+              <li onclick="showSection('panel')">Asignaturas</li>
+              <li onclick="showSection('panel')">Notas</li>
+              <li onclick="showSection('panel')">Calendario</li>
+              <li onclick="showSection('reportes')">Reportes</li>
+            </ul>
+          </nav>
+        </div>
+      </aside>
+
+      <!-- PANEL (mini wireframe) -->
+      <article id="panel" class="card" tabindex="0" aria-labelledby="panel-title">
+        <h2 id="panel-title">Panel del Estudiante</h2>
+        <div class="panel-grid" role="region" aria-label="Panel de usuario">
+          <div class="sidebar card" aria-hidden="false">
+            <nav aria-label="Opciones del estudiante">
+              <ul>
+                <li>Asignaturas</li>
+                <li>Notas</li>
+                <li>Calendario</li>
+                <li>Reportes</li>
+              </ul>
+            </nav>
+          </div>
+          <div class="main-area">
+            <h3 class="small muted">Asignaturas matriculadas</h3>
+            <table aria-label="Tabla de asignaturas">
+              <thead>
+                <tr><th>Cod</th><th>Asignatura</th><th>Docente</th><th>Nota</th></tr>
+              </thead>
+              <tbody>
+                <tr><td>INF101</td><td>Fundamentos de Programación</td><td>Prof. Pérez</td><td>4.5</td></tr>
+                <tr><td>BDA202</td><td>Bases de Datos</td><td>Prof. Gómez</td><td>4.2</td></tr>
+                <tr><td>ARC303</td><td>Arquitectura de Software</td><td>Prof. Ruiz</td><td>4.7</td></tr>
+              </tbody>
+            </table>
+
+            <div style="margin-top:14px">
+              <div class="chart" role="img" aria-label="Gráfico de rendimiento académico (placeholder)">Gráfico (placeholder)</div>
+              <div class="actions">
+                <button class="btn" onclick="downloadPDFPlaceholder()">Descargar reporte</button>
+                <button class="small muted" onclick="alert('Exportar a PDF (simulado)')">Exportar a PDF</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- REPORTES -->
+      <article id="reportes" class="card" tabindex="0" aria-labelledby="reportes-title">
+        <h2 id="reportes-title">Reporte Académico</h2>
+        <p class="small muted">Resumen visual del desempeño por asignatura. Botones para exportar los datos.</p>
+        <div style="margin-top:12px;display:flex;gap:12px;align-items:flex-start;flex-wrap:wrap">
+          <div style="flex:1;min-width:220px">
+            <div class="chart" role="img" aria-label="Gráfico circular de notas">
+              <!-- simple SVG pie (accesible) -->
+              <svg width="160" height="160" viewBox="0 0 32 32" role="img" aria-label="Gráfico circular ficticio">
+                <circle r="16" cx="16" cy="16" fill="#eef6ff"/>
+                <path d="M16 16 L32 16 A16 16 0 0 1 10 4 Z" fill="#c8ddff"></path>
+                <path d="M16 16 L10 4 A16 16 0 0 1 22 26 Z" fill="#97c0ff"></path>
+              </svg>
+            </div>
+          </div>
+          <div style="flex:1;min-width:220px">
+            <h3 class="small muted">Notas por materia</h3>
+            <table aria-label="Tabla de notas">
+              <thead><tr><th>Asignatura</th><th>Nota</th></tr></thead>
+              <tbody>
+                <tr><td>Fund. Programación</td><td>4.5</td></tr>
+                <tr><td>Bases de Datos</td><td>4.2</td></tr>
+                <tr><td>Arquitectura SW</td><td>4.7</td></tr>
+              </tbody>
+            </table>
+            <div class="actions">
+              <button class="btn" onclick="downloadPDFPlaceholder()">Descargar PDF</button>
+              <button class="small muted" onclick="alert('Exportar Excel (simulado)')">Exportar Excel</button>
+            </div>
+          </div>
+        </div>
+      </article>
+
+    </section>
+
+    <footer class="muted small" role="contentinfo">Prototipo - Universidad Ejemplar · Diseño: estudiante · &copy; 2025</footer>
+  </div>
+
+  <script>
+    // Control de secciones: muestra la sección seleccionada y desplaza al top.
+    const sections = ['home','login','panel','reportes'];
+    function showSection(id){
+      sections.forEach(s=>{
+        const el = document.getElementById(s);
+        if(!el) return;
+        if(s===id){ el.style.display = 'block'; el.setAttribute('aria-hidden','false'); el.scrollIntoView({behavior:'smooth'}); }
+        else { el.style.display = 'none'; el.setAttribute('aria-hidden','true'); }
+      })
+    }
+    // Inicializar para mostrar home
+    document.addEventListener('DOMContentLoaded',()=>{
+      showSection('home');
+    })
+
+    // Simulaciones de acciones (placeholders)
+    function fakeLogin(e){
+      e.preventDefault();
+      const user = document.getElementById('user').value.trim();
+      if(!user){ alert('Ingrese su usuario'); return; }
+      alert('Ingreso simulado: ' + user + "\nSe redirige al panel (simulado)");
+      showSection('panel');
+    }
+
+    function downloadPDFPlaceholder(){
+      // Nota: en un prototipo real se integraría una librería como jsPDF o backend
+      alert('Descarga de PDF simulada. En implementación real: generar PDF del layout seleccionado.');
+    }
+  </script>
+</body>
+</html>
